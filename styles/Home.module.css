@@ -1,0 +1,14 @@
+.container {
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  min-height: 95vh;
+  padding: 2rem 0;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

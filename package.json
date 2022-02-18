@@ -1,0 +1,32 @@
+{
+  "name": "war",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.4.2",
+    "@mui/material": "^5.4.2",
+    "@walletconnect/web3-provider": "^1.7.1",
+    "@web3auth/web3auth": "^0.3.0",
+    "magic-sdk": "^8.0.1",
+    "moralis": "^1.3.2",
+    "next": "12.1.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-moralis": "^1.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.18",
+    "@types/react": "17.0.39",
+    "eslint": "8.9.0",
+    "eslint-config-next": "12.1.0",
+    "typescript": "4.5.5"
+  }
+}
