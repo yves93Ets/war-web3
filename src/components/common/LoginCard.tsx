@@ -3,9 +3,9 @@ import { VpnKey } from '@mui/icons-material';
 import { useMoralis } from 'react-moralis';
 
 export default function LoginCard() {
-  const { isAuthUndefined, authenticate } = useMoralis();
+  const { authenticate } = useMoralis();
   const handleLogin = () => {
-    authenticate();
+    authenticate({ signingMessage: 'Sign in to A wars' });
   };
   return (
     <Container maxWidth="sm">

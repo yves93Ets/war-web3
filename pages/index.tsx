@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useMoralis } from 'react-moralis';
-import LoginCard from '../components/LoginCard';
+import Dashboard from 'src/components/common/Dashboard';
+import LoginCard from 'src/components/common/LoginCard';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
-  const { isAuthUndefined } = useMoralis();
-
+  const { isAuthenticated } = useMoralis();
   return (
     <div className={styles.container}>
       <Head>
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {!isAuthUndefined ? <LoginCard /> : <p>Connected </p>}
+        {isAuthenticated ? <Dashboard /> : <LoginCard />}
       </main>
     </div>
   );
