@@ -17,7 +17,7 @@ import Image from 'next/image';
 const pages = ['home', 'stats', 'Blog'];
 
 const NavBar = () => {
-  const { user, logout, isLoggingOut } = useMoralis();
+  const { user, logout, isLoggingOut, isAuthenticated } = useMoralis();
   const btnSx = { my: 2, color: 'white', display: 'block' };
   return (
     <AppBar position="static" color="secondary">
@@ -47,23 +47,25 @@ const NavBar = () => {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton sx={{ p: 0 }}>
-                <Typography color="white" mr={2}>
-                  {user?.attributes.username}
-                </Typography>
-                <Avatar alt="Remy Sharp" src="/logo.jpg" />
-                <Button
-                  disabled={isLoggingOut}
-                  sx={btnSx}
-                  onClick={() => logout()}
-                >
-                  Logout
-                </Button>
-              </IconButton>
-            </Tooltip>
-          </Box>
+          {isAuthenticated && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton sx={{ p: 0 }}>
+                  <Typography color="white" mr={2}>
+                    {user?.attributes.username}
+                  </Typography>
+                  <Avatar alt="Remy Sharp" src="/logo.jpg" />
+                  <Button
+                    disabled={isLoggingOut}
+                    sx={btnSx}
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </Button>
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

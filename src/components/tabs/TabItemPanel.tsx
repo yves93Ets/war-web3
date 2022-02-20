@@ -6,7 +6,7 @@ interface ownProps {
   value: number;
 }
 
-const TabPanel: FC<ownProps> = ({ index, value, children }) => {
+const TabItemPanel: FC<ownProps> = ({ index, value, children }) => {
   return (
     <div
       role="TabItemPanel"
@@ -21,4 +21,4 @@ const TabPanel: FC<ownProps> = ({ index, value, children }) => {
   );
 };
 
-export default TabPanel;
+export default TabItemPanel;

@@ -9,7 +9,7 @@ interface ownProps {
 }
 
 export default function Layout({ children }: ownProps) {
-  const { isUnauthenticated, logout } = useMoralis();
+  const { isUnauthenticated } = useMoralis();
   const router = useRouter();
   const needsToAuth = isUnauthenticated && router.pathname !== '/';
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Layout({ children }: ownProps) {
 
   return (
     <>
-      <Navbar isAuth={!isUnauthenticated} logout={logout} />
+      <Navbar />
       <main>{children}</main>
       <Footer />
     </>

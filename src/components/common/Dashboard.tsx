@@ -1,39 +1,45 @@
-import { CardMedia, Card, Box, Button, Container } from '@mui/material/';
-import { VpnKey } from '@mui/icons-material';
+import { SyntheticEvent, useState } from 'react';
+import { Box, Tab, Tabs } from '@mui/material';
+import { TabItemPanel, ProfileTab } from 'src/components/tabs';
+import { TAB_TITLE_LIST } from 'utils/constants';
 import { useMoralis } from 'react-moralis';
 
 export default function Dashboard() {
-  const { authenticate } = useMoralis();
-  const handleLogin = () => {
-    authenticate({ signingMessage: 'Sign in to A wars' });
+  const [value, setValue] = useState(0);
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
+  const { user } = useMoralis();
+
+  const tabList = [
+    <ProfileTab user={user} key="0" />,
+    <ProfileTab user={user} key="1" />,
+    <ProfileTab user={user} key="2" />,
+    <ProfileTab user={user} key="3" />,
+    <ProfileTab user={user} key="4" />,
+  ];
+
   return (
-    <Container maxWidth="sm">
-      <Card sx={{ display: 'flex', margin: 6, width: 'fit-content' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            pl: 4,
-            pr: 4,
-          }}
+    <Box sx={{ alignSelf: 'flex-start' }}>
+      <>
+        <Tabs
+          textColor="secondary"
+          indicatorColor="secondary"
+          onChange={handleChange}
+          value={value}
+          selectionFollowsFocus
         >
-          <Button
-            onClick={handleLogin}
-            color="secondary"
-            variant="contained"
-            startIcon={<VpnKey />}
-          >
-            Logged in
-          </Button>
-        </Box>
-        <CardMedia
-          component="img"
-          sx={{ width: 151 }}
-          image="/avengers.jpg"
-          alt="Live from space album cover"
-        />
-      </Card>
-    </Container>
+          {TAB_TITLE_LIST.map((title) => {
+            return <Tab key={title} label={title} />;
+          })}
+          <Tab></Tab>
+        </Tabs>
+        {tabList.map((tab, i) => (
+          <TabItemPanel key={i} value={value} index={i}>
+            {tab}
+          </TabItemPanel>
+        ))}
+      </>
+    </Box>
   );
 }
