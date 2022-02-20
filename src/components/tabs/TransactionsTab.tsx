@@ -7,7 +7,7 @@ interface ownProps {
   user: MoralisUser;
 }
 
-function ProfileTab({ user }: ownProps) {
+function TransactionsTab({ user }: ownProps) {
   const { setUserData, isUserUpdating } = useMoralis();
   const [inputValue, setInputValue] = useState('');
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,4 +43,4 @@ function ProfileTab({ user }: ownProps) {
   );
 }
 
-export default ProfileTab;
+export default TransactionsTab;

@@ -1,6 +1,11 @@
 import { SyntheticEvent, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
-import { TabItemPanel, ProfileTab } from 'src/components/tabs';
+import {
+  TabItemPanel,
+  ProfileTab,
+  BalanceTab,
+  TransactionsTab,
+} from 'src/components/tabs';
 import { TAB_TITLE_LIST } from 'utils/constants';
 import { useMoralis } from 'react-moralis';
 
@@ -13,8 +18,8 @@ export default function Dashboard() {
 
   const tabList = [
     <ProfileTab user={user} key="0" />,
-    <ProfileTab user={user} key="1" />,
-    <ProfileTab user={user} key="2" />,
+    <BalanceTab key="1" />,
+    <TransactionsTab user={user} key="2" />,
     <ProfileTab user={user} key="3" />,
     <ProfileTab user={user} key="4" />,
   ];

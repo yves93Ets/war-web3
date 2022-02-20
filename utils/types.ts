@@ -5,3 +5,7 @@ interface IUser {
 }
 
 export type MoralisUser = IUser | null;
+
+export interface BalanceResult {
+  balance: string;
+}

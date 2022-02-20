@@ -9,7 +9,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-// import styles from '../../../styles/Header.module.css';
 import styles from 'styles/Header.module.css';
 import { useMoralis } from 'react-moralis';
 import Link from 'next/link';
