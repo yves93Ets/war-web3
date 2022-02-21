@@ -5,6 +5,7 @@ import {
   ProfileTab,
   BalanceTab,
   TransactionsTab,
+  NftTab,
 } from 'src/components/tabs';
 import { TAB_TITLE_LIST } from 'utils/constants';
 import { useMoralis } from 'react-moralis';
@@ -17,10 +18,11 @@ export default function Dashboard() {
   const { user } = useMoralis();
 
   const tabList = [
+    <NftTab key="31" />,
     <ProfileTab user={user} key="0" />,
     <BalanceTab key="1" />,
     <TransactionsTab key="2" />,
-    <ProfileTab user={user} key="3" />,
+    <NftTab key="3" />,
     <ProfileTab user={user} key="4" />,
   ];
 
