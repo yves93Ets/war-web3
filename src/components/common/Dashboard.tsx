@@ -19,7 +19,7 @@ export default function Dashboard() {
   const tabList = [
     <ProfileTab user={user} key="0" />,
     <BalanceTab key="1" />,
-    <TransactionsTab user={user} key="2" />,
+    <TransactionsTab key="2" />,
     <ProfileTab user={user} key="3" />,
     <ProfileTab user={user} key="4" />,
   ];

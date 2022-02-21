@@ -47,22 +47,20 @@ const NavBar = () => {
             ))}
           </Box>
           {isAuthenticated && (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton sx={{ p: 0 }}>
-                  <Typography color="white" mr={2}>
-                    {user?.attributes.username}
-                  </Typography>
-                  <Avatar alt="Remy Sharp" src="/logo.jpg" />
-                  <Button
-                    disabled={isLoggingOut}
-                    sx={btnSx}
-                    onClick={() => logout()}
-                  >
-                    Logout
-                  </Button>
-                </IconButton>
-              </Tooltip>
+            <Box sx={{ flexGrow: 0, display: 'flex' }}>
+              <IconButton sx={{ p: 0 }}>
+                <Typography color="white" sx={{ fontWeight: 600, mr: 2 }}>
+                  {user?.attributes.username}
+                </Typography>
+                <Avatar alt="Remy Sharp" src="/logo.jpg" />
+              </IconButton>
+              <Button
+                disabled={isLoggingOut}
+                sx={btnSx}
+                onClick={() => logout()}
+              >
+                Logout
+              </Button>
             </Box>
           )}
         </Toolbar>

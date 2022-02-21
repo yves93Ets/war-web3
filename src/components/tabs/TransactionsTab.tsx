@@ -1,45 +1,46 @@
-import { useState, ChangeEvent } from 'react';
-import { Button, Paper, TextField, Typography } from '@mui/material';
-import { MoralisUser } from 'utils/types';
-import { useMoralis } from 'react-moralis';
-
-interface ownProps {
-  user: MoralisUser;
-}
-
-function TransactionsTab({ user }: ownProps) {
-  const { setUserData, isUserUpdating } = useMoralis();
-  const [inputValue, setInputValue] = useState('');
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+import { useEffect, useState } from 'react';
+import { Paper, Typography, Link, Divider, Box } from '@mui/material';
+import { useMoralis, useMoralisWeb3Api } from 'react-moralis';
+import { getBalanceOptions } from 'utils/functions';
+import { TransactionResult, Transactions } from 'utils/types';
+import { BASE_URL } from 'utils/constants';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+function TransactionsTab() {
+  const { user } = useMoralis();
+  const Web3API = useMoralisWeb3Api();
+  const [transactions, setTransactions] = useState<Transactions>([]);
+  const balanceOptions = getBalanceOptions(user);
+  const fetchUserTransactions = async () => {
+    const data = (await Web3API.account
+      .getTransactions({ ...balanceOptions, limit: 5 })
+      .catch((err) => console.error(err))) as TransactionResult;
+    if (data && data.result) {
+      setTransactions(data.result as Transactions);
+    }
   };
-  const handleClick = () => {
-    setUserData({ username: inputValue }).then(() => setInputValue(''));
-  };
 
+  useEffect(() => {
+    fetchUserTransactions();
+  }, []);
   return (
-    <>
-      <Typography> {user?.getUsername()}</Typography>
-      <Typography> {user?.get('ethAddress')}</Typography>
-      <Paper sx={{ mt: 4, display: 'flex' }} elevation={3}>
-        <TextField
-          sx={{ m: 4 }}
-          value={inputValue}
-          onChange={handleChange}
-          label="Set username"
-          variant="standard"
-        />
-        <Button
-          disabled={isUserUpdating}
-          sx={{ m: 4 }}
-          color="secondary"
-          variant="contained"
-          onClick={handleClick}
-        >
-          Save
-        </Button>
-      </Paper>
-    </>
+    <Paper sx={{ mt: 4, display: 'flex' }} elevation={3}>
+      <Typography variant="h4" mb="4" width="100%">
+        My last 5 transactions
+      </Typography>
+      <Box width="100%">
+        {transactions.map((trx) => {
+          return (
+            <div key={trx.hash}>
+              <Link href={`${BASE_URL}${trx.hash}`}>
+                <OpenInNewIcon fontSize="small" />
+                {trx.hash}
+              </Link>
+              <Divider />
+            </div>
+          );
+        })}
+      </Box>
+    </Paper>
   );
 }
 

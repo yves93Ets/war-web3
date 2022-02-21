@@ -1,8 +1,9 @@
-import { useState, ChangeEvent, useEffect } from 'react';
-import { Button, Divider, Paper, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Button, Divider, Paper, Typography } from '@mui/material';
 import { useMoralis, useMoralisWeb3Api, useERC20Balances } from 'react-moralis';
 import { Moralis } from 'moralis';
 import { BalanceResult } from 'utils/types';
+import { getBalanceOptions } from 'utils/functions';
 
 const FromWei = Moralis.Units.FromWei;
 
@@ -11,10 +12,8 @@ function BalanceTab() {
   const { fetchERC20Balances, data: tokens } = useERC20Balances();
   const { user } = useMoralis();
   const [ethBalance, setethBalance] = useState('0');
-  const balanceOptions = {
-    chain: 'rinkeby' as 'rinkeby',
-    address: user?.get('ethAddress'),
-  };
+  const balanceOptions = getBalanceOptions(user);
+
   const fetchNativeBalance = async () => {
     const result = (await Web3API.account
       .getNativeBalance(balanceOptions)
@@ -44,14 +43,14 @@ function BalanceTab() {
       </Button>
       {tokens &&
         tokens.map((token) => (
-          <>
+          <Box key={token.name}>
             <Typography sx={{ ml: 4, mt: 1 }}>
               {FromWei(token.balance)}
               <b>&nbsp;{token.symbol}</b>
             </Typography>
 
             <Divider />
-          </>
+          </Box>
         ))}
     </Paper>
   );
