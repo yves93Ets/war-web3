@@ -1,16 +1,18 @@
 Rinkeby: chainlink faucet
 
 #Roadmap:
-update readme
-create smart contract
-build test
-deploy
-build ui for SC
+
+- update readme
+- create smart contract
+- build test
+- deploy
+- build ui for smart contract
 
 #React Roadmap
-clean up current ui
-create separate page for SC
-lazy loading
-stats page
-cache stats
-avatar randomize on name
+
+- clean up current ui
+- create separate page for SC
+- lazy loading
+- stats page
+- cache stats
+- avatar randomize on name

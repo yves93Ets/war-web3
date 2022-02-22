@@ -1,6 +1,34 @@
 # war-web3
 
+This is the war game, the highest card wins the pot, in this app you will be playing the house(casino)
 war casino game on web3 with moralis and polygon
+started with this tutorial [https://www.youtube.com/watch?v=nfYCSodsdn8] and ill go from there
+
+# specifications 22-02-2022
+
+will be using moralis and work on polygon network
+the front end will be with react/next and mui library
+Past results will be cached to be able to see stats on past games
+
+#### the contract includes
+
+- betting an amount
+- getting payed
+- add/remove money from personal pot
+
+### Backend
+
+will include test for the contract
+
+#### the ui
+
+will have two pages
+
+- the one from the tutorial
+- gaming page
+- some ui test with cypress
+
+#### There is a todo page that gives an idea of the upcoming updates
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -16,23 +44,4 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- you need a Moralis account to be able to connect with metamask and used the sc on moralis test network
