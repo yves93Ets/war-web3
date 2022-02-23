@@ -2,9 +2,10 @@ Rinkeby: chainlink faucet
 
 #Roadmap:
 
-- update readme
-- create smart contract
-- build test
+- update readme -
+- create smart contract...
+  - Make work the pay functions
+- build tests
 - deploy
 - build ui for smart contract
 
