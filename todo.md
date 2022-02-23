@@ -5,6 +5,7 @@ Rinkeby: chainlink faucet
 - update readme -
 - create smart contract...
   - Make work the pay functions
+  - multiple games
 - build tests
 - deploy
 - build ui for smart contract

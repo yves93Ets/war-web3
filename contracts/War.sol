@@ -3,7 +3,7 @@ pragma solidity ^0.8.11;
 
 contract War {
     address public manager;
-    address payable public  deposit;
+    address payable public  casinoWallet;
     mapping(address => Gaming) public gamesList;
     uint public numberOfGames = 0;
     uint public totalOfPlayers = 0;
@@ -21,10 +21,11 @@ contract War {
     event GameFinishedEvent(address _sender);
     event CasinoPayedEvent(address _to, uint _amount);
     event CasinoWinsEvent(address _from, uint _amount);
+    event RoundEvent(address _from, uint _amount);
 
 
-    constructor(address payable _deposit) {
-        deposit = _deposit; 
+    constructor(address payable _casinoWallet) {
+        casinoWallet = _casinoWallet; 
         manager = msg.sender;
     }
 
@@ -46,15 +47,19 @@ contract War {
 
     function changeBet(uint _amount) isAmountOk isNotOwner("Owner not allowed to play") public {
         amount = _amount;
+    }
 
+    function RoundTriggered() public {
+        numberOfGames++;
+        emit RoundEvent(msg.sender,amount);
     }
 
     function getNumberOfActiveGames() onlyOwner public view returns (uint) {
         return numberOfGames;
     }
 
-    function casinoFunds() onlyOwner public view returns (uint) {
-        return deposit.balance;
+    function amountInCasinoWallet() onlyOwner public view returns (uint) {
+        return casinoWallet.balance;
     }
 
     function createNewGame() public {
@@ -86,20 +91,18 @@ contract War {
         emit GameFinishedEvent(msg.sender);
     }
 
-    function payPlayer()  payable public {
-        deposit.transfer(amount);
+    function payPlayerFromCasinoWallet()  payable public {
+        casinoWallet.transfer(amount);
         emit CasinoPayedEvent(msg.sender,amount);
     }
 
-    function payCasino()  payable public {
+    function payToCasinoWallet()  payable public {
         address payable payee = payable(msg.sender);
         payee.transfer(amount);
         emit CasinoWinsEvent(msg.sender,amount);
-
-
     }
 
     receive() payable external {
-        payPlayer();
+        payPlayerFromCasinoWallet();
     }
 }
