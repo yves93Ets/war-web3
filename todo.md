@@ -6,7 +6,9 @@ Rinkeby: chainlink faucet
 - create smart contract...
   - Make work the pay functions
   - multiple games
-- build tests
+- test
+  - ~~build tests~~
+  - convert to typescript
 - deploy
 - build ui for smart contract
 
@@ -18,3 +20,14 @@ Rinkeby: chainlink faucet
 - stats page
 - cache stats
 - avatar randomize on name
+
+## truffle commands
+
+truffle:
+init
+compile
+migrate == deploy --network matic
+console --network matic
+develop
+{value:web3.utils.toWei("2","ether"),from:accounts[2]}
+truffle create test {contractName}

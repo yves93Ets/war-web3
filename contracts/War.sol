@@ -1,11 +1,12 @@
 //SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.11;
 
-contract War {
+import "./Rentrancy.sol";
+
+contract War is ReentrancyGuard {
     address public manager;
-    address payable public  casinoWallet;
     mapping(address => Gaming) public gamesList;
-    uint public numberOfGames = 0;
+    uint public activeGames = 0;
     uint public totalOfPlayers = 0;
     uint public amount = 0.005 ether; 
 
@@ -15,6 +16,7 @@ contract War {
         uint  amount;
         address payable player;
         GameState state;
+        bool locked;
     }
 
     event NewGameEvent(address _sender);
@@ -24,11 +26,11 @@ contract War {
     event RoundEvent(address _from, uint _amount);
 
 
-    constructor(address payable _casinoWallet) {
-        casinoWallet = _casinoWallet; 
+    constructor() {
         manager = msg.sender;
     }
 
+    
 
     modifier isNotOwner(string memory _error) {
         require(msg.sender != manager,_error);
@@ -49,23 +51,22 @@ contract War {
         amount = _amount;
     }
 
-    function RoundTriggered() public {
-        numberOfGames++;
+    function roundTriggered() public {
+        activeGames++;
         emit RoundEvent(msg.sender,amount);
     }
 
-    function getNumberOfActiveGames() onlyOwner public view returns (uint) {
-        return numberOfGames;
+    function amountInCasinoWallet() onlyOwner public view returns(uint){
+        return address(this).balance;
     }
 
-    function amountInCasinoWallet() onlyOwner public view returns (uint) {
-        return casinoWallet.balance;
+    function managerWallet () onlyOwner public view returns (uint) {
+        return manager.balance;
     }
 
     function createNewGame() public {
         if(isUserExist()) {
             gamesList[msg.sender].state = GameState.Playing;
-           
         }
         else {
             Gaming storage newGame = gamesList[msg.sender];
@@ -73,8 +74,9 @@ contract War {
             newGame.amount = 0.1 ether;
             newGame.player = payable(msg.sender);
             newGame.state = GameState.Playing;
+            newGame.locked = false;
         }
-        numberOfGames++;
+        activeGames++;
         
         emit NewGameEvent(msg.sender);
     }
@@ -87,22 +89,25 @@ contract War {
     function finishGame () public {
         Gaming storage newGame = gamesList[msg.sender];
         newGame.state = GameState.NotPlaying;
-        numberOfGames--;
+        activeGames--;
         emit GameFinishedEvent(msg.sender);
     }
 
-    function payPlayerFromCasinoWallet()  payable public {
-        casinoWallet.transfer(amount);
-        emit CasinoPayedEvent(msg.sender,amount);
-    }
+    function payToCasinoWallet()  nonReentrant payable public {
 
-    function payToCasinoWallet()  payable public {
         address payable payee = payable(msg.sender);
-        payee.transfer(amount);
+        //payee.transfer(amount);
+        (bool success,  ) = payee.call{value:amount}("");
+        require(success, "Failed to transfer the funds, aborting.");
         emit CasinoWinsEvent(msg.sender,amount);
     }
 
-    receive() payable external {
-        payPlayerFromCasinoWallet();
+    function payPlayerFromCasinoWallet() nonReentrant  payable public {
+        address payable casinoWallet = payable(address(this));
+        (bool success,  ) = casinoWallet.call{value:amount}("");
+        require(success, "Failed to Withdraw the funds, aborting.");
+        emit CasinoPayedEvent(msg.sender,amount);
     }
 }
+
+
