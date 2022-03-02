@@ -4,9 +4,7 @@ import { useMoralis, useNFTBalances } from 'react-moralis';
 import { getBalanceOptions } from 'utils/functions';
 import { Nfts } from 'utils/types';
 import { NFT_LIST } from 'utils/constants';
-import { TabContainer } from 'src/components/common';
-import Image from 'next/image';
-import styles from 'styles/Header.module.css';
+import { TabContainer, NFTCard } from 'src/components/common';
 
 function NftTab() {
   const { getNFTBalances, data } = useNFTBalances();
@@ -30,15 +28,8 @@ function NftTab() {
         nfts.map((nft) => (
           <Box key={nft.name}>
             {nft.image && (
-              <Stack p={2} direction="row">
-                <Image
-                  className={styles.rounded}
-                  alt={nft.token_uri}
-                  width={50}
-                  height={50}
-                  src={nft.image}
-                />
-                <Typography>{nft.token_uri}</Typography>
+              <Stack p={2} direction="row" justifyContent="center">
+                <NFTCard {...nft} />
               </Stack>
             )}
           </Box>
