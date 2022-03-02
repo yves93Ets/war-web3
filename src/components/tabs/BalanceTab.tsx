@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Divider, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useMoralis, useMoralisWeb3Api, useERC20Balances } from 'react-moralis';
 import { Moralis } from 'moralis';
-import { BalanceResult } from 'utils/types';
+import { BalanceResult, Token } from 'utils/types';
 import { getBalanceOptions } from 'utils/functions';
+import { TabContainer, TokenLabel } from 'src/components/common';
 
 const FromWei = Moralis.Units.FromWei;
 
@@ -28,31 +29,21 @@ function BalanceTab() {
     fetchERC20Balances({ params: balanceOptions });
   }, []);
 
-  const handleClick = () => {};
   return (
-    <Paper sx={{ mt: 4, display: 'flex' }} elevation={3}>
-      <Typography sx={{ ml: 4, mt: 1 }}>ERC20 Tokens</Typography>
-      <Button
-        sx={{ m: 4 }}
-        color="secondary"
-        variant="contained"
-        onClick={handleClick}
-      >
-        {ethBalance}
-        <b>&nbsp;eth</b>
-      </Button>
-      {tokens &&
-        tokens.map((token) => (
-          <Box key={token.name}>
-            <Typography sx={{ ml: 4, mt: 1 }}>
-              {FromWei(token.balance)}
-              <b>&nbsp;{token.symbol}</b>
-            </Typography>
-
-            <Divider />
-          </Box>
-        ))}
-    </Paper>
+    <TabContainer>
+      <Typography>ERC20 Tokens</Typography>
+      <Box p={2}>
+        <TokenLabel balance={ethBalance} symbol={'Eth'} />
+        {tokens &&
+          tokens.map((token) => (
+            <TokenLabel
+              key={token.symbol}
+              balance={FromWei(token.balance)}
+              symbol={token.symbol}
+            />
+          ))}
+      </Box>
+    </TabContainer>
   );
 }
 

@@ -6,14 +6,13 @@ import {
   Container,
   IconButton,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import styles from 'styles/Header.module.css';
 import { useMoralis } from 'react-moralis';
 import Link from 'next/link';
 import Image from 'next/image';
-const pages = ['home', 'stats', 'Blog'];
+const pages = ['home', 'stats', 'tutorial'];
 
 const NavBar = () => {
   const { user, logout, isLoggingOut, isAuthenticated } = useMoralis();

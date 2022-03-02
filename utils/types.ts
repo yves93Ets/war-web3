@@ -31,3 +31,8 @@ export interface Nft {
   name: string;
   token_uri: string;
 }
+
+export interface Token {
+  balance: string;
+  symbol: string;
+}

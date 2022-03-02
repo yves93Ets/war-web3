@@ -5,6 +5,7 @@ import { getBalanceOptions } from 'utils/functions';
 import { MoralisResult, Transactions } from 'utils/types';
 import { BASE_URL } from 'utils/constants';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { TabContainer } from 'src/components/common';
 function TransactionsTab() {
   const { user } = useMoralis();
   const Web3API = useMoralisWeb3Api();
@@ -23,7 +24,7 @@ function TransactionsTab() {
     fetchUserTransactions();
   }, []);
   return (
-    <Paper sx={{ mt: 4, display: 'flex' }} elevation={3}>
+    <TabContainer>
       <Typography variant="h4" mb="4" width="100%">
         My last 5 transactions
       </Typography>
@@ -31,16 +32,19 @@ function TransactionsTab() {
         {transactions.map((trx) => {
           return (
             <div key={trx.hash}>
-              <Link href={`${BASE_URL}${trx.hash}`}>
-                <OpenInNewIcon fontSize="small" />
+              <Link
+                color="secondary"
+                href={`${BASE_URL}${trx.hash}`}
+                key={trx.hash}
+              >
+                <OpenInNewIcon style={{ marginBottom: -5 }} fontSize="small" />
                 {trx.hash}
               </Link>
-              <Divider />
             </div>
           );
         })}
       </Box>
-    </Paper>
+    </TabContainer>
   );
 }
 

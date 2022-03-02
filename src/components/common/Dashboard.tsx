@@ -39,7 +39,6 @@ export default function Dashboard() {
           {TAB_TITLE_LIST.map((title) => {
             return <Tab key={title} label={title} />;
           })}
-          <Tab></Tab>
         </Tabs>
         {tabList.map((tab, i) => (
           <TabItemPanel key={i} value={value} index={i}>

@@ -1,14 +1,9 @@
-//SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.11;
-
-import "./Rentrancy.sol";
-
 contract War is ReentrancyGuard {
     address public manager;
     mapping(address => Gaming) public gamesList;
     uint public activeGames = 0;
     uint public totalOfPlayers = 0;
-    uint public amount = 0.005 ether; 
+    uint public amount = 2 ether; 
 
     enum GameState {NotPlaying,Playing}
 
@@ -71,7 +66,7 @@ contract War is ReentrancyGuard {
         else {
             Gaming storage newGame = gamesList[msg.sender];
             totalOfPlayers++;
-            newGame.amount = 0.1 ether;
+            // newGame.amount = 2 ether;
             newGame.player = payable(msg.sender);
             newGame.state = GameState.Playing;
             newGame.locked = false;
@@ -93,20 +88,20 @@ contract War is ReentrancyGuard {
         emit GameFinishedEvent(msg.sender);
     }
 
-    function payToCasinoWallet()  nonReentrant payable public {
-
+    function payToCasinoWallet()   nonReentrant  public payable {
+        require(msg.value > amount, string(abi.encodePacked("Insuficient funds" ,msg.value)));
         address payable payee = payable(msg.sender);
-        //payee.transfer(amount);
         (bool success,  ) = payee.call{value:amount}("");
         require(success, "Failed to transfer the funds, aborting.");
         emit CasinoWinsEvent(msg.sender,amount);
     }
 
-    function payPlayerFromCasinoWallet() nonReentrant  payable public {
+     function payPlayerFromCasinoWallet() nonReentrant   public payable {
+        require(address(this).balance > amount, string(abi.encodePacked("Insuficient funds" ,address(this).balance)));
         address payable casinoWallet = payable(address(this));
         (bool success,  ) = casinoWallet.call{value:amount}("");
         require(success, "Failed to Withdraw the funds, aborting.");
-        emit CasinoPayedEvent(msg.sender,amount);
+        emit CasinoPayedEvent(casinoWallet,amount);
     }
 }
 

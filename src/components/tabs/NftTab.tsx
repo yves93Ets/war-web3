@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
 import { useMoralis, useNFTBalances } from 'react-moralis';
-import { Moralis } from 'moralis';
 import { getBalanceOptions } from 'utils/functions';
 import { Nfts } from 'utils/types';
+import { NFT_LIST } from 'utils/constants';
+import { TabContainer } from 'src/components/common';
 import Image from 'next/image';
-
-const FromWei = Moralis.Units.FromWei;
+import styles from 'styles/Header.module.css';
 
 function NftTab() {
   const { getNFTBalances, data } = useNFTBalances();
@@ -18,70 +18,32 @@ function NftTab() {
     getNFTBalances({ params: balanceOptions });
     if (data && data.result) {
       setNfts(data.result as Nfts);
-      setNfts([
-        {
-          image: 'https://picsum.photos/200/300?grayscale',
-          name: 'focas',
-          token_uri: 'https://picsum.photos/',
-        },
-        {
-          image: 'https://picsum.photos/seed/picsum/200/300',
-          name: 'nieve',
-          token_uri: 'https://picsum.photos/',
-        },
-        {
-          image: 'https://picsum.photos/id/237/200/300',
-          name: 'perro',
-          token_uri: 'https://picsum.photos/',
-        },
-      ]);
+      setNfts(NFT_LIST);
     } else {
-      setNfts([
-        {
-          image: 'https://picsum.photos/200/300?grayscale',
-          name: 'focas',
-          token_uri: 'https://picsum.photos/',
-        },
-        {
-          image: 'https://picsum.photos/seed/picsum/200/300',
-          name: 'nieve',
-          token_uri: 'https://picsum.photos/',
-        },
-        {
-          image: 'https://picsum.photos/id/237/200/300',
-          name: 'perro',
-          token_uri: 'https://picsum.photos/',
-        },
-      ]);
+      setNfts(NFT_LIST);
     }
   }, []);
   return (
-    <Paper
-      sx={{ mt: 4, display: 'flex', minHeight: 300, flexDirection: 'column' }}
-      elevation={3}
-    >
-      <Typography sx={{ m: 4 }}>My nfts</Typography>
-
+    <TabContainer>
+      <Typography>My nfts</Typography>
       {nfts &&
         nfts.map((nft) => (
-          <Box
-            sx={{ m: 2, p: 2, border: 'solid 1px gray', borderRadius: 4 }}
-            key={nft.name}
-          >
+          <Box key={nft.name}>
             {nft.image && (
-              <Box>
-                {/* <Image
+              <Stack p={2} direction="row">
+                <Image
+                  className={styles.rounded}
                   alt={nft.token_uri}
                   width={50}
                   height={50}
                   src={nft.image}
-                /> */}
+                />
                 <Typography>{nft.token_uri}</Typography>
-              </Box>
+              </Stack>
             )}
           </Box>
         ))}
-    </Paper>
+    </TabContainer>
   );
 }
 
